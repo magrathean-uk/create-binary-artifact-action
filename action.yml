@@ -102,13 +102,13 @@ runs:
   using: "composite"
   steps:
     - name: Install Rust toolchain
-      uses: dtolnay/rust-toolchain@1482605bfc5719782e1267fd0c0cc350fe7646b8 # v1
+      uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # v1
       with:
         toolchain: ${{ inputs.toolchain }}
         targets: ${{ inputs.target }}
 
     - name: install rust dependencies
-      uses: taiki-e/install-action@a22e1808bbd53573c0b897cc089c64643401af7d # v2
+      uses: taiki-e/install-action@a4d3f3f761dcd95cce1b72cb61cb6d1963438177 # v2.87.30
       with:
         tool: just,toml-cli,bindgen-cli
 
@@ -142,21 +142,21 @@ runs:
 
     - name: install cargo-auditable for non-cross builds
       if: inputs.use_cross != true
-      uses: taiki-e/install-action@a22e1808bbd53573c0b897cc089c64643401af7d # v2
+      uses: taiki-e/install-action@a4d3f3f761dcd95cce1b72cb61cb6d1963438177 # v2.87.30
       with:
         tool: cargo-auditable,cargo-audit
 
-    - uses: Swatinem/rust-cache@82a92a6e8fbeee089604da2575dc567ae9ddeaab # v2
+    - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
       with:
         key: ${{ inputs.target }}
 
     - name: install rsign2 for signing binaries
-      uses: taiki-e/install-action@a22e1808bbd53573c0b897cc089c64643401af7d # v2
+      uses: taiki-e/install-action@a4d3f3f761dcd95cce1b72cb61cb6d1963438177 # v2.87.30
       if: inputs.sign-release == 'true'
       with:
-        tool: rsign2@0.6.5
+        tool: rsign2@0.6.7
 
-    - uses: Swatinem/rust-cache@82a92a6e8fbeee089604da2575dc567ae9ddeaab # v2
+    - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
       with:
         key: ${{ inputs.target }}
 
@@ -349,7 +349,7 @@ runs:
         rsign sign -W -t "Signed by rustic Maintainers" -x $RELEASE_NAME.sig -s private.key $RELEASE_NAME
 
     - name: Storing package as artefact
-      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
       with:
         name: binary-${{ inputs.target }}
         path: ${{ steps.package.outputs.name }}*
